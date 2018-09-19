@@ -44,7 +44,6 @@ $( document ).ready(function() {
 
 		//find data attribute of the tab user is on
 		var userChoice = $(this).data('tab');
-		//console.log(userChoice);
 		
 		// call contentDisplayOnTab function
 		  contentDisplayOnTab(userChoice);
@@ -62,27 +61,19 @@ $( document ).ready(function() {
    		//Switch statement based on userChoice to generate handlebars template
 		switch (tabChoice) {
 			case 'vehicle':
-			var tabChoice = 'vehicle';
 			var options = vehicleOptions;
-			template = template;
 			break;
 
 			case 'color':
-			var tabChoice = 'color';
 			var options = colorOptions;
-			template = template;
 			break;
 
 			case 'package':
-			var tabChoice = 'package';
 			var options = packageOptions;			
-			template = template;
 			break;
 
 			case 'summary':
-			var tabChoice = 'summary';
 			var options = carSelection;
-			template = template;
 			break;
 
 			default:
@@ -107,29 +98,28 @@ $( document ).ready(function() {
 		}
 		// end conditional for summary vs remainder of tabs
 
-		// When the user clicks on an option (a vehicle, a color, or a package), update the ‘carSelection’ object to reflect the choice the user made.
-		$('.options-container').on('click', 'div[class*="option"]', function () {
-
-			var panel = $(this).data('panel');
-			carSelection[panel].choice = $(this).data('option');
-  			carSelection[panel].price = $(this).data('price');
-
-  			// If vehichle option and color option have been selected
-  			if (carSelection.color.choice !== 'Not Selected' && carSelection.vehicle.choice !== 'Not Selected') {
-		    	$('.vehicle-display').attr('src', 'assets/' + carSelection.vehicle.choice + '-' + carSelection.color.choice + '.jpg');
-		 	} else if (carSelection.vehicle.choice !== 'Not Selected') {
-		 		//display default image of vehicle chosen if no color option chosen
-		    	$('.vehicle-display').attr('src', 'assets/' + carSelection.vehicle.choice + '.jpg');
-		  	}
-
-		  	// show amount in Cost section converted to currency:
-		  	var cost = (carSelection.color.price + carSelection.vehicle.price + carSelection.package.price).toLocaleString('en-US')		  	
-		  	$('.cost-display').html('$' + cost);
-
-		});
-
    }
 	// end function to display content
+
+	// When the user clicks on an option (a vehicle, a color, or a package), update the ‘carSelection’ object to reflect the choice the user made.
+	$('.options-container').on('click', 'div[class*="option"]', function () { // pull outside of contentDisply function
+
+		var panel = $(this).data('panel');
+		carSelection[panel].choice = $(this).data('option');
+			carSelection[panel].price = $(this).data('price');
+			// If vehichle option and color option have been selected
+			if (carSelection.color.choice !== 'Not Selected' && carSelection.vehicle.choice !== 'Not Selected') {
+	    	$('.vehicle-display').attr('src', 'assets/' + carSelection.vehicle.choice + '-' + carSelection.color.choice + '.jpg');
+	 	} else if (carSelection.vehicle.choice !== 'Not Selected') {
+	 		//display default image of vehicle chosen if no color option chosen
+	    	$('.vehicle-display').attr('src', 'assets/' + carSelection.vehicle.choice + '.jpg');
+	  	}
+
+	  	// show amount in Cost section converted to currency:
+	  	var cost = (carSelection.color.price + carSelection.vehicle.price + carSelection.package.price).toLocaleString('en-US')		  	
+	  	$('.cost-display').html('$' + cost);
+
+	});
 
 // show vehicle tab on load
 contentDisplayOnTab('vehicle');
